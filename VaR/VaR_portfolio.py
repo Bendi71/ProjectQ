@@ -81,7 +81,7 @@ for i in range(5):
     mcdata = []
     values = pd.Series(mcvalues[0][-1, :])
     mcdata.append(list(time.items())[i][0])
-    mcdata.extend([mcvalues[1], values.mean(), values.std(), values.min()])
+    mcdata.extend([mcvalues[1], values.mean(), values.std(), values.min()])  # Standard deviation is returns related
     mcdata.extend([VaR(values, alfa=5), cVaR(values, alfa=5), VaR(values, alfa=10), cVaR(values, alfa=10)])
     mcresults.append(mcdata)
 
