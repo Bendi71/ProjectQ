@@ -9,7 +9,7 @@ def GetData(stock,time):
     var=np.std(hozam)
     maxdraw=np.min(hozam)
     osszhozam=(hist[-1]-hist[0])/hist[0]
-    return hozam,osszhozam, atlag, np.sqrt(var),maxdraw
+    return hozam,osszhozam, atlag, var, maxdraw
 def VaR(hozam,alfa):
     return np.percentile(hozam, alfa)
 def cVaR(hozam,alfa):
@@ -21,9 +21,10 @@ eredmenyek=[]
 for t in time:
     adatok=[]
     adatok.append(t)
-    hozam = GetData(stock, t)[0][1:]
+    values = GetData(stock, t)
+    hozam=values[0][1:]
     for i in range(1,5):
-        adatok.append(GetData(stock,t)[i])
+        adatok.append(values[i])
     adatok.append(VaR(hozam,alfa=5))
     adatok.append(cVaR(hozam,alfa=5))
     adatok.append(VaR(hozam, alfa=10))

@@ -22,7 +22,7 @@ def PortPerformance(weights,dailyreturns,returns,covmatrix):
     portreturns=dailyreturns.dot(weights)
     mean=portreturns.mean()
     maxdraw=portreturns.min()
-    return Return, mean, np.sqrt(stdev), maxdraw, portreturns
+    return Return, mean, stdev, maxdraw, portreturns
 
 def VaR(hozam,alfa):
     return np.percentile(hozam, alfa)

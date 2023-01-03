@@ -40,14 +40,14 @@ for i in range(5):
     adatok.append(list(time.items())[i][0])
     values = GetData(stock, list(time.items())[i][0])
     hozam=values[0][1:]
-    adatok.extend([values[1],values[2],np.sqrt(values[3]),values[4],VaR(hozam,alfa=5),cVaR(hozam,alfa=5),VaR(hozam,alfa=10),cVaR(hozam,alfa=10)])
+    adatok.extend([values[1],values[2], values[3],values[4],VaR(hozam,alfa=5),cVaR(hozam,alfa=5),VaR(hozam,alfa=10),cVaR(hozam,alfa=10)])
     records.append(adatok)
 
     mcadat=[]
-    final = MC(GetData(stock,list(time.items())[i][0]), 200, list(time.items())[i][1])
+    final = MC(values, 200, list(time.items())[i][1])
     values = pd.Series(final[0][-1, :])
     mcadat.append(list(time.items())[i][0])
-    mcadat.extend([final[1], values.mean(), np.sqrt(values.std()), values.min()])
+    mcadat.extend([final[1], values.mean(), values.std(), values.min()])
     mcadat.extend([VaR(values, alfa=5), cVaR(values, alfa=5), VaR(values, alfa=10), cVaR(values, alfa=10)])
     mcrecords.append(mcadat)
 
