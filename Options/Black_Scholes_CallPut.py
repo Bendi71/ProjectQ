@@ -3,10 +3,10 @@ from scipy.stats import norm as sc
 
 
 class Call:
-    def __init__(self, asset_price, strike_price, time_toepiration, volatility, riskfreerate):
+    def __init__(self, asset_price, strike_price, time_toexpiration, volatility, riskfreerate):
         self.asset_price = asset_price
         self.strike_price = strike_price
-        self.time_ex = time_toepiration
+        self.time_ex = time_toexpiration
         self.sigma = volatility
         self.rf = riskfreerate
         self.P = np.exp(-self.rf * self.time_ex)
