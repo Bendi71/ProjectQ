@@ -8,11 +8,11 @@ stock = input('Ticker: ')  # Input is a ticker of a stock
 
 def GetData(stock, time):  # Downloads historical stock prices from yahoofinance and does basic statistical calculations
     hist = yf.download(tickers=stock, period=time, interval='1d', auto_adjust=True, ignore_tz=True)['Close']
-    returns = hist.pct_change()
+    returns = np.log(hist / hist.shift(1)).dropna()  # Daily log returns
     mean_return = np.mean(returns)
     sig = np.std(returns)  # Standard deviation is returns related
     maxdraw = np.min(returns)
-    Return = (hist[-1] - hist[0]) / hist[0]  # Return of the stock from start to end date
+    Return = np.log((hist[-1] - hist[0]) / hist[0])  # Return of the stock from start to end date
     return returns, Return, mean_return, sig, maxdraw, hist[-1]  # Output is an array of values
 
 

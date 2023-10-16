@@ -12,9 +12,9 @@ if weights.size == 0:
 
 def GetData(stock, time):
     hist = yf.download(tickers=stock, period=time, interval='1d', auto_adjust=True, ignore_tz=True)['Close']
-    hozam = hist.pct_change()
+    hozam = np.log(hist / hist.shift(1)).dropna() # Daily log returns
     covmat = hozam.cov()
-    Returns = (hist.tail(1).iloc[0] - hist.head(1).iloc[0]) / hist.head(1).iloc[0]
+    Returns = np.log((hist.tail(1).iloc[0] - hist.head(1).iloc[0]) / hist.head(1).iloc[0])
     return hozam.dropna(), Returns, covmat
 
 

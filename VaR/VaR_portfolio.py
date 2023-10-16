@@ -13,10 +13,11 @@ if weights.size == 0:
 
 def GetData(stock, time):  # Downloads historical stock prices from yahoofinance and does basic statistical calculations
     hist = yf.download(tickers=stock, period=time, interval='1d', auto_adjust=True, ignore_tz=True)['Close']
-    hozam = hist.pct_change()
+    hozam = np.log(hist / hist.shift(1)).dropna()  # Daily log returns
     meanreturn = hozam.mean()
     covmatrix = hozam.cov()  # Covariance matrix
-    Returns = (hist.tail(1).iloc[0] - hist.head(1).iloc[0]) / hist.head(1).iloc[0]  # Return of the stocks from start
+    Returns = np.log((hist.tail(1).iloc[0] - hist.head(1).iloc[0]) / hist.head(1).iloc[0]) # Return of the stocks from
+    # start
     # to end date
     return hozam.dropna(), Returns, meanreturn, covmatrix, np.array(hist.tail(1))  # Output is an array of arrays
 

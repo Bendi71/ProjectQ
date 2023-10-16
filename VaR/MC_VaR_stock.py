@@ -8,7 +8,7 @@ stock = input('Ticker: ')
 
 def GetData(stock):
     hist = yf.download(tickers=stock, period='2y', interval='1d', auto_adjust=True, ignore_tz=True)['Close']
-    hozam = hist.pct_change()
+    hozam = np.log(hist / hist.shift(1)).dropna()  # Daily log returns
     atlag = np.mean(hozam)
     sig = np.std(hozam)
     return atlag, sig, hist[-1]

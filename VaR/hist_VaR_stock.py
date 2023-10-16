@@ -7,11 +7,11 @@ stock = input('Ticker: ')
 
 def GetData(stock, time):
     hist = yf.download(tickers=stock, period=time, interval='1d', auto_adjust=True, ignore_tz=True)['Close']
-    hozam = hist.pct_change()
+    hozam = np.log(hist / hist.shift(1)).dropna() # Daily log returns
     atlag = np.mean(hozam)
     var = np.std(hozam)
     maxdraw = np.min(hozam)
-    osszhozam = (hist[-1] - hist[0]) / hist[0]
+    osszhozam = np.log((hist[-1] - hist[0]) / hist[0])
     return hozam, osszhozam, atlag, var, maxdraw
 
 
