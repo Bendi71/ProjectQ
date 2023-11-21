@@ -1,14 +1,35 @@
 import datetime
+import re
+
 import my_indicators as ind
 import backtrader as bt
 import yfinance as yf
 import Bt_strats as st
 import matplotlib.pyplot as plt
 
+# get strategy names from Bt_strats.py
+strat_names = re.compile(r'class\s+([^\(\s]+)\s*[:\(]').findall(open('Bt_strats.py', 'r').read())
+
 # inputs
 ticker = input("Ticker: ")
 startdate = input("Start date: ")
 closedate = input("End date: ")
+
+print("Choose an option:")
+for i, strat in enumerate(strat_names, 1):
+    print(f"{i}. {strat}")
+user_strat = input("Enter the number corresponding to your choice: ")
+
+# Validate user input
+try:
+    user_choice = int(user_strat)
+    if 1 <= user_choice <= len(strat_names):
+        chosen_option = strat_names[user_choice - 1]
+        print(f"You chose: {chosen_option}")
+    else:
+        print("Invalid choice. Please enter a valid number.")
+except ValueError:
+    print("Invalid choice. Please enter a valid number.")
 
 cerebro = bt.Cerebro()
 
@@ -18,7 +39,7 @@ data = bt.feeds.PandasData(dataname=df)
 cerebro.adddata(data)
 
 # add strategy
-strat = st.SMACrossStrategy
+strat = st.__dict__[chosen_option]
 cerebro.addstrategy(strat)
 
 # Set the cash, commission, stake size, slippage
