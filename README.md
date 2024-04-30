@@ -11,7 +11,6 @@ Welcome to my Quantitative Finance GitHub repository! I am a Quantitative Financ
 - [Option Pricing Models](#option-pricing-models)
 - [Getting Started](#getting-started)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
@@ -51,8 +50,3 @@ To explore and use the projects in this repository, follow these steps:
 ## Contributing
 
 If you find any issues, have suggestions for improvements, or want to contribute to this repository, please feel free to open an issue or submit a pull request. Contributions are always welcome!
-
-## License
-This project is licensed under the MIT License. Feel free to use, modify, and distribute the code for your own educational and research purposes.
-
-Happy coding!
