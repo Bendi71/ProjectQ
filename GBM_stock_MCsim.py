@@ -15,7 +15,7 @@ where:
     S_t = stock price at time t
     dt = time step
     sigma = volatility
-    dW_t = Wienner process
+    dW_t = Wiener process
 
 Wiener process can be defined as a random variable with a normal distribution with mean 0 and variance dt.
 """
