@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class Barrier_option:
     def __init__(self, asset_price, strike_price, upper_strike, lower_strike, riskfreerate, volatility,
                  time_toexpiariton, steps):
