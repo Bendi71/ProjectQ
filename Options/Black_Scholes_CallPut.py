@@ -29,7 +29,11 @@ class Call:
         return self.asset_price * sc.pdf(self.d1) * np.sqrt(self.time_ex) / 100
 
     def Theta(self):
-        return
+        return (-self.asset_price * sc.pdf(self.d1) * self.sigma / (2 * np.sqrt(self.time_ex)) - self.rf *
+                self.strike_price * self.P * sc.cdf(self.d2)) / 365
+
+    def Rho(self):
+        return -self.time_ex * self.strike_price * self.P * sc.cdf(self.d2) / 100
 
 
 class Put:
@@ -58,4 +62,8 @@ class Put:
         return self.asset_price * sc.pdf(self.d1) * np.sqrt(self.time_ex) / 100
 
     def Theta(self):
-        return
+        return (-self.asset_price * sc.pdf(self.d1) * self.sigma / (2 * np.sqrt(self.time_ex)) + self.rf *
+                self.strike_price * self.P * sc.cdf(-self.d2)) / 365
+
+    def Rho(self):
+        return -self.time_ex * self.strike_price * self.P * sc.cdf(-self.d2) / 100
