@@ -200,3 +200,54 @@ class Chooser_option:
             g[:i + 1] = np.exp(-self.r * self.dt) * (self.q_prob * g[1:i + 2] + (1 - self.q_prob) * g[:i + 1])
             g = g[:-1]
         return g
+class ExchangeableOption:
+    def __init__(self, asset_price_A, asset_price_B, riskfreerate, volatility_A, volatility_B, correlation, time_to_expiration, steps):
+        self.SA = asset_price_A
+        self.SB = asset_price_B
+        self.r = riskfreerate
+        self.sigA = volatility_A
+        self.sigB = volatility_B
+        self.rho = correlation
+        self.T = time_to_expiration
+        self.N = steps
+
+
+    def _update_prices(self, S1, S2, r, sigma1, sigma2, rho, n, eps1, eps2):
+        S1_new = S1 * (1 + r / n + sigma1 / np.sqrt(n) * eps1)
+        S2_new = S2 * (1 + r / n + sigma2 / np.sqrt(n) * (rho * eps1 + np.sqrt(1 - rho ** 2) * eps2))
+        return S1_new, S2_new
+
+    def _build_tree(self):
+        import itertools
+        letters = ['u', 'm', 'd']
+        S1_tree = []
+        S2_tree = []
+
+        eps_map = {
+            'u': (np.sqrt(3 / 2), 1 / np.sqrt(2)),
+            'm': (0, -np.sqrt(2)),
+            'd': (-np.sqrt(3 / 2), 1 / np.sqrt(2))
+        }
+
+        for combo in itertools.product(letters, repeat=self.N):
+            S1_new, S2_new = self.SA, self.SB
+            for move in combo:
+                eps1, eps2 = eps_map[move]
+                S1_new, S2_new = self._update_prices(S1_new, S2_new, self.r, self.sigA, self.sigB, self.rho, self.N, eps1, eps2)
+            S1_tree.append(S1_new)
+            S2_tree.append(S2_new)
+
+        return np.array(S1_tree), np.array(S2_tree)
+
+    def _calculate_option_price(self, payoff_func):
+        S1_tree, S2_tree = self._build_tree()
+        payoff = payoff_func(S1_tree, S2_tree)
+        probabilities = 1 / 3 ** self.N
+        g = np.sum(payoff) * probabilities
+        return g * np.exp(-self.r * self.T)
+
+    def call(self):
+        return self._calculate_option_price(lambda S1, S2: np.maximum(S1 - S2, 0))
+
+    def put(self):
+        return self._calculate_option_price(lambda S1, S2: np.maximum(S2 - S1, 0))

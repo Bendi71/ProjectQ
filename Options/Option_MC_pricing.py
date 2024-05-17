@@ -125,3 +125,42 @@ class Barrier_option_MC:
                 else:
                     payoff = payoff + 0
         return payoff * np.exp(-self.r * self.T)
+
+class Exchangeable_options_MC:
+    def __init__(self, asset_price_A,asset_price_B,MC_sim,riskfreerate,volatility_A,volatility_B,correlation,
+                 time_toexpiration,steps):
+        self.MC = MC_sim
+        self.SA = asset_price_A
+        self.SB = asset_price_B
+        self.r = riskfreerate
+        self.sigA = volatility_A
+        self.sigB = volatility_B
+        self.rho = correlation
+        self.T = time_toexpiration
+        self.N = steps
+        self.dt = self.T / self.N
+    def call(self):
+        payoff=0
+        for mc in range(self.MC):
+            SA_temp = self.SA
+            SB_temp = self.SB
+            for t in range(self.N):
+                W1 = np.random.standard_normal()
+                W2 = np. random.standard_normal() * (1-self.rho**2)**0.5 + W1 * self.rho
+                SA_temp = SA_temp + self.r*SA_temp*self.dt+self.sigA*SA_temp*self.dt*W1
+                SB_temp = SB_temp + self.r * SB_temp * self.dt + self.sigB * SB_temp * self.dt * W2
+            payoff = payoff + max(0,SA_temp-SB_temp)/self.MC
+        return payoff * np.exp(-self.r*self.T)
+
+    def put(self):
+        payoff = 0
+        for mc in range(self.MC):
+            SA_temp = self.SA
+            SB_temp = self.SB
+            for t in range(self.N):
+                W1 = np.random.standard_normal()
+                W2 = np.random.standard_normal() * (1 - self.rho ** 2) ** 0.5 + W1 * self.rho
+                SA_temp = SA_temp + self.r * SA_temp * self.dt + self.sigA * SA_temp * self.dt * W1
+                SB_temp = SB_temp + self.r * SB_temp * self.dt + self.sigB * SB_temp * self.dt * W2
+            payoff = payoff + max(0, SB_temp - SA_temp) / self.MC
+        return payoff * np.exp(-self.r * self.T)
