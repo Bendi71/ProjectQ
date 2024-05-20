@@ -32,7 +32,7 @@ I have developed ready-to-use Value at Risk (VaR) models to estimate the potenti
 
 ### Option Pricing Models
 
-In this repository, you will find implementations of option pricing models. These models are essential for valuing financial derivatives and understanding the potential risk and return associated with options trading.
+In this repository, you will find implementations of option pricing models. These models are essential for valuing financial derivatives and understanding the potential risk and return associated with options trading. Specifically, the pricing is primarily done using Monte Carlo simulation and binomial models, such as the Cox-Ross-Rubinstein (CRR) model.
 
 ## Getting Started
 
