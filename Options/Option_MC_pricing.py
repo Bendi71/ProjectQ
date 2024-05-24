@@ -1,3 +1,16 @@
+"""
+Monte Carlo Simulation for Option Pricing Project
+
+This project aims to implement the Monte Carlo (MC) simulation method for option pricing. The MC simulation is a computational algorithm that relies on repeated random sampling to obtain numerical results. It is often used when the model is complex and an analytical solution is not available.
+
+In the context of option pricing, the MC simulation is used to simulate the possible paths of the underlying asset price over time. The payoff of the option is then calculated for each simulated path. The average payoff, discounted back to the present, gives the price of the option.
+
+The MC simulation is particularly useful for pricing American options and exotic options, where no analytical solutions exist due to the path-dependency and early exercise features.
+
+In this project, we implement the MC simulation for various types of options, including Asian options, Lookback options, Barrier options, and Exchangeable options. For each type of option, we simulate a large number of asset price paths, calculate the payoff for each path, and then take the average and discount it back to the present to get the option price.
+
+The code is written in Python and uses libraries such as numpy for numerical calculations and random number generation.
+"""
 import numpy as np
 from GBM_sim import GBM_sim
 

@@ -1,3 +1,14 @@
+"""
+Delta Hedging Strategy Implementation Project
+
+This project aims to implement a delta hedging strategy for a European call option on a single stock. Delta hedging is a strategy used by options traders to reduce the risk associated with the price movements of the underlying asset.
+
+The strategy involves adjusting the position in the underlying asset (in this case, a stock) to offset changes in the option's delta. The delta of an option measures the rate of change of the option price with respect to changes in the underlying asset's price. By maintaining a delta-neutral position, the trader can mitigate the risk of losses due to unfavorable price movements in the underlying asset.
+
+In this project, we use the Black-Scholes model to calculate the delta of a European call option. The delta is recalculated at regular intervals, and the position in the stock is adjusted accordingly. The cost of these adjustments, including the cost of borrowing funds to purchase the stock, is tracked over time.
+
+The code is written in Python and uses libraries such as yfinance for downloading stock price data, numpy for numerical calculations, pandas for data manipulation, and matplotlib for plotting. The Black-Scholes model is implemented in a separate module and imported into the main script.
+"""
 import numpy as np
 import Black_Scholes_CallPut as bs
 import yfinance as yf

@@ -1,3 +1,32 @@
+"""
+Cox-Ross-Rubinstein (CRR) Option Pricing Model Project
+
+This project aims to implement the Cox-Ross-Rubinstein (CRR) model for option pricing. The CRR model is a binomial tree model that is used to calculate the theoretical price of options. It was developed by John Cox, Stephen Ross, and Mark Rubinstein in 1979.
+
+The CRR model works by dividing the time to expiration of the option into a number of time intervals, or steps. At each step, it is assumed that the price of the underlying asset can move up or down by a certain factor. This leads to a binomial tree of asset prices. The option prices at each step are then calculated backwards from the expiration date to the present, using the concept of risk-neutral valuation.
+
+The up and down factors in the CRR model are calculated using the following equations:
+
+    u = exp(sigma * sqrt(delta_t))
+    d = 1 / u
+
+where:
+    u = up factor
+    d = down factor
+    sigma = volatility of the underlying asset
+    delta_t = length of a time step
+
+The risk-neutral probability (q) in the CRR model is calculated using the following equation:
+
+    q = (exp(r * delta_t) - d) / (u - d)
+
+where:
+    r = risk-free interest rate
+
+The CRR model is particularly useful because it converges to the Black-Scholes model as the number of steps increases, making it a good model for pricing American options and other exotic options.
+
+The code is written in Python and uses libraries such as numpy for numerical calculations.
+"""
 import numpy as np
 
 class Barrier_option:

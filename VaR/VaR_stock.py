@@ -1,3 +1,20 @@
+"""
+Value at Risk (VaR) Stock Risk Management Project
+
+This project aims to calculate and analyze the Value at Risk (VaR) of a single stock. VaR is a statistical technique used in risk management to quantify the level of financial risk within a firm or investment portfolio over a specific time frame.
+
+VaR provides an estimate of the maximum loss that a stock may experience over a given time period, under normal market conditions, and at a given confidence level. For example, a VaR of 1% over a one-day period at a 95% confidence level means that there is a 5% chance that the stock will lose more than 1% of its value in a day.
+
+VaR is widely used in finance for quantifying market risk. It is used by portfolio managers to understand the market risk inherent in their portfolio, by risk managers to control the risk level of a trading desk, and by regulators for determining the capital reserve requirements for financial institutions.
+
+In this project, we calculate the VaR of a stock using both historical simulation and Monte Carlo simulation methods.
+
+Historical simulation involves calculating the stock returns based on historical stock prices and then determining the VaR based on the distribution of these returns.
+
+Monte Carlo simulation, on the other hand, involves generating a large number of random stock return scenarios based on a statistical model, and then determining the VaR based on the distribution of these simulated returns.
+
+The code is written in Python and uses libraries such as yfinance for downloading stock price data, numpy for numerical calculations, pandas for data manipulation, and matplotlib for plotting.
+"""
 import yfinance as yf
 import numpy as np
 import pandas as pd

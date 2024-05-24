@@ -1,3 +1,20 @@
+"""
+Backtrader Stock Frame Project
+
+This project aims to implement various trading strategies using the Backtrader framework. Backtrader is a Python library used for backtesting trading strategies.
+
+The script takes a ticker symbol, start date, and end date as inputs from the user. It then downloads the historical stock price data for the given ticker and date range using the yfinance library.
+
+The user is also prompted to choose a trading strategy from a list of strategies defined in the `Bt_strats.py` file. The chosen strategy is then applied to the historical stock price data.
+
+The script uses the Backtrader library to set up a trading environment, add the historical data, and add the chosen strategy. It also sets the initial cash, commission, stake size, and slippage for the trading environment.
+
+The script then runs the backtest and prints the starting and final portfolio values. It also calculates and prints various performance metrics, such as total return, annual return, Sharpe ratio, maximum drawdown, total trades, total wins, total losses, and win rate.
+
+Finally, the script plots the buy/sell signals and closing price of the stock, along with any additional plots specific to the chosen strategy.
+
+The code is written in Python and uses libraries such as yfinance for downloading stock price data, Backtrader for backtesting trading strategies, and matplotlib for plotting.
+"""
 import datetime
 import re
 
