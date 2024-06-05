@@ -1,32 +1,28 @@
 import pandas
 import backtrader as bt
+import numpy as np
 
-def rsi(df, periods, ema=True):
-    close_delta = df.diff()
+def RSI(df, periods, ema=True):
+    close_delta = df['Close'].diff()
 
-    # Make two series: one for lower closes and one for higher closes
     up = close_delta.clip(lower=0)
     down = -1 * close_delta.clip(upper=0)
 
-    if ema == True:
-        # Use exponential moving average
-        ma_up = up.ewm(com=periods - 1, adjust=True, min_periods=periods).mean()
-        ma_down = down.ewm(com=periods - 1, adjust=True, min_periods=periods).mean()
+    if ema:
+        ma_up = up.ewm(com=periods - 1, min_periods=periods).mean()
+        ma_down = down.ewm(com=periods - 1, min_periods=periods).mean()
     else:
-        # Use simple moving average
-        ma_up = up.rolling(window=periods, adjust=False).mean()
-        ma_down = down.rolling(window=periods, adjust=False).mean()
+        ma_up = up.rolling(window=periods).mean()
+        ma_down = down.rolling(window=periods).mean()
 
-    rsi = ma_up / ma_down
-    rsi = 100 - (100 / (1 + rsi))
+    rsi = 100 - (100 / (1 + ma_up / ma_down))
     return rsi
 
-def donchianchannel(df,period):
-    don=pandas.DataFrame()
-    don['upper']=df['High'].rolling(period).max()
-    don['lower']=df['Low'].rolling(period).min()
-    don['mid']=(don['upper']+don['lower'])/2
-    return don
+def Donchian(df,period):
+    upper=df['High'].rolling(period).max()
+    lower=df['Low'].rolling(period).min()
+    mid=(upper+lower)/2
+    return upper,lower,mid
 
 class DonchianChannels(bt.Indicator):
     '''
@@ -62,3 +58,42 @@ class DonchianChannels(bt.Indicator):
         self.l.dch = bt.ind.Highest(hi, period=self.p.period)
         self.l.dcl = bt.ind.Lowest(lo, period=self.p.period)
         self.l.dcm = (self.l.dch + self.l.dcl) / 2.0  # avg of the above
+def MACD(df, fast, slow, signal):
+    exp1 = df['Close'].ewm(span=fast, adjust=False).mean()
+    exp2 = df['Close'].ewm(span=slow, adjust=False).mean()
+    macd = exp1 - exp2
+    signal = macd.ewm(span=signal, adjust=False).mean()
+    histogram = macd - signal
+    return macd, signal, histogram
+
+def SMA(df, periods):
+    return df.rolling(window=periods).mean()
+
+def EMA(df, periods):
+    return df.ewm(span=periods, adjust=False).mean()
+
+def ATR(df, periods):
+    df['H-L'] = abs(df['High'] - df['Low'])
+    df['H-PC'] = abs(df['High'] - df['Close'].shift(1))
+    df['L-PC'] = abs(df['Low'] - df['Close'].shift(1))
+    tr = df[['H-L', 'H-PC', 'L-PC']].max(axis=1)
+    return tr.rolling(window=periods).mean()
+
+def StochasticOscillator(df, k, d):
+    stochk = ((df['Close'] - df['Low'].rolling(k).min()) / (df['High'].rolling(k).max() - df['Low'].rolling(k).min())) * 100
+    stochd = stochk.rolling(d).mean()
+    return stochk, stochd
+
+def BollingerBands(df, periods):
+    sma = df['Close'].rolling(window=periods).mean()
+    rstd = df['Close'].rolling(window=periods).std()
+    upper_band = sma + 2 * rstd
+    lower_band = sma - 2 * rstd
+    return upper_band, lower_band
+
+def OBV(df):
+    return ((np.sign(df['Close'].diff()) * df['Volume']).fillna(0)).cumsum()
+
+def VWAP(df):
+    vwap = ((df['Volume'] * (df['High'] + df['Low'] + df['Close'])) / 3).cumsum() / df['Volume'].cumsum()
+    return vwap
