@@ -14,7 +14,7 @@ Welcome to my Quantitative Finance GitHub repository! I am a Quantitative Financ
 
 ## Introduction
 
-As a Quantitative Finance student, I am passionate about exploring and implementing quantitative models and strategies. This repository is a collection of projects that I have worked on during my journey, including backtesting environments, machine learning applications, value at risk models, and option pricing models.
+As a Quantitative Finance student, I am passionate about exploring and implementing quantitative models and strategies. This repository is a collection of projects that I have worked on during my journey, including backtesting environments, machine learning applications, value-at-risk models, and option pricing models.
 
 ## Projects
 
@@ -24,11 +24,11 @@ I have implemented a backtesting environment using the [backtrader](https://www.
 
 ### Machine Learning Projects
 
-Currently, I am actively working on machine learning projects involving Lasso regression, random forest, and deep learning algorithms. These projects aim to enhance quantitative analysis and trading strategies.
+Currently, I am actively working on a trading algorithm using text mining and text analysis, that makes automatic trades based on Twitter sentiment. With these projects, I am aiming to implement my knowledge of machine learning models, like Ridge Regression, Random Forest, Neural Networks, etc.  
 
 ### Value at Risk Models
 
-I have developed ready-to-use Value at Risk (VaR) models to estimate the potential loss in a portfolio under various market conditions. These models contribute to risk management and decision-making processes.
+I have developed ready-to-use Value-at-risk (VaR) models to estimate the potential loss in a portfolio under various market conditions. These models contribute to risk management and decision-making processes.
 
 ### Option Pricing Models
 
