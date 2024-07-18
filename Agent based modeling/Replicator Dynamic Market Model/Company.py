@@ -3,7 +3,7 @@ class Company:
     def __init__(self, market_share, quality):
         self.MarketShare = market_share
         self.Quality = quality
-        self.History = {'MarketShare': [], 'Quality': []}
+        self.History = {'MarketShare': [self.MarketShare], 'Quality': [self.Quality]}
         self.entry_step = 0
         self.exit_step = None
 
