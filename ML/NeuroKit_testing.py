@@ -70,9 +70,11 @@ plot_multiclass_data(X,Y)
 Y = np.eye(3)[Y.flatten()]
 
 nn = NeuralNetwork()
-nn.add(Dense(2, 16, activation=Relu(), regularizer=L2(0.01)))
-nn.add(Dense(16, 16, activation=Relu(), regularizer=L2(0.01)))
-nn.add(Dense(16, 3, activation=Softmax()))
+nn.add(
+    Dense(2, 16, activation=Relu(), regularizer=L2(0.01)),
+       Dense(16, 16, activation=Relu(), regularizer=L2(0.01)),
+       Dense(16, 3, activation=Softmax())
+)
 
 
 nn.compile(optimizer='sgd', loss='cross_entropy', metrics=['accuracy'])

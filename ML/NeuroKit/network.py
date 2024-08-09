@@ -23,8 +23,9 @@ class NeuralNetwork(object):
             'R2': (r2_score)
         }
 
-    def add(self, layer):
-        self.layers.append(layer)
+    def add(self, *layers):
+        for layer in layers:
+            self.layers.append(layer)
 
     def set_loss(self, loss_name):
         if loss_name in self.loss_functions:
