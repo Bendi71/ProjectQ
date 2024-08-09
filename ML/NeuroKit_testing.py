@@ -1,6 +1,7 @@
 from NeuroKit.network import NeuralNetwork
 from NeuroKit.dense import Dense
 from NeuroKit.activations import *
+from NeuroKit.regularizer import *
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
@@ -69,8 +70,8 @@ plot_multiclass_data(X,Y)
 Y = np.eye(3)[Y.flatten()]
 
 nn = NeuralNetwork()
-nn.add(Dense(2, 16, activation=Relu()))
-nn.add(Dense(16, 16, activation=Relu()))
+nn.add(Dense(2, 16, activation=Relu(), regularizer=L2(0.01)))
+nn.add(Dense(16, 16, activation=Relu(), regularizer=L2(0.01)))
 nn.add(Dense(16, 3, activation=Softmax()))
 
 

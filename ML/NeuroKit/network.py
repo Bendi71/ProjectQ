@@ -4,6 +4,7 @@ from .optimizer import *
 from .metrics import *
 from .early_stopping import *
 from .activations import *
+from .regularizer import *
 from .dense import Dense
 
 class NeuralNetwork(object):
