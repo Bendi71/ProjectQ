@@ -1,5 +1,6 @@
-from crr import CRR
 import numpy as np
+
+from crr import CRR
 
 
 class ChooserOption(CRR):
@@ -9,11 +10,17 @@ class ChooserOption(CRR):
         self.chooser_time = chooser_time
         self.chooser_step = int(chooser_time * steps / time_to_maturity)
 
-    def calculate_option_price(self, payoff_call, payoff_put):
+    def _calculate_option_price(self, payoff_call, payoff_put):
         self.St = self._build_tree_big() if self.N > 20 else self._build_tree_fast()
-
-        call_payoff = payoff_call(self.St[:, self.chooser_step])
-        put_payoff = payoff_put(self.St[:, self.chooser_step])
+        if self.N > 20:
+            call_payoff = []
+            put_payoff = []
+            for route in self.St:
+                call_payoff.append(payoff_call(route[self.chooser_step]))
+                put_payoff.append(payoff_put(route[:, self.chooser_step]))
+        else:
+            call_payoff = payoff_call(self.St[:, self.chooser_step])
+            put_payoff = payoff_put(self.St[:, self.chooser_step])
         chooser_payoff = np.maximum(call_payoff, put_payoff)
 
         q_prob = self._calculate_probability()
@@ -21,12 +28,7 @@ class ChooserOption(CRR):
         return np.sum(chooser_payoff * q_prob) * self.discount ** self.N
 
     def chooser(self, strike):
-        return self.calculate_option_price(
-            lambda x: np.maximum(0, x - strike),
-            lambda x: np.maximum(0, strike - x)
+        return self._calculate_option_price(
+            np.vectorize(lambda x: np.maximum(0, x - strike)),
+            np.vectorize(lambda x: np.maximum(0, strike - x))
         )
-
-
-if __name__ == '__main__':
-    option = ChooserOption(100, 0.05, 0.2, 1, 3, 0.5)
-    print(option.chooser(100))
