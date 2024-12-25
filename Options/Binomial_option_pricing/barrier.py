@@ -1,5 +1,6 @@
-from crr import CRR
 import numpy as np
+
+from crr import CRR
 
 
 class BarrierOption(CRR):
@@ -13,8 +14,15 @@ class BarrierOption(CRR):
     def calculate_option_price(self, payoff):
         self.St = self._build_tree_big() if self.N > 20 else self._build_tree_fast()
 
-        max_St = np.max(self.St, axis=1)
-        min_St = np.min(self.St, axis=1)
+        if self.N > 20:
+            min_St = []
+            max_St = []
+            for route in self.St:
+                min_St.append(min(route))
+                max_St.append(max(route))
+        else:
+            min_St = np.min(self.St, axis=1)
+            max_St = np.max(self.St, axis=1)
         last_St = self.St[:, -1]
 
         if self.barrier_type == 'up':
@@ -37,57 +45,57 @@ class BarrierOption(CRR):
     def call(self, strike, barrier):
         self.barrier = barrier
         self.barrier_type = 'up'
-        return self.calculate_option_price(lambda x: np.maximum(0, x - strike))
+        return np.vectorize(self.calculate_option_price(lambda x: np.maximum(0, x - strike)))
 
     def put(self, strike, barrier):
         self.barrier = barrier
         self.barrier_type = 'down'
-        return self.calculate_option_price(lambda x: np.maximum(0, strike - x))
+        return np.vectorize(self.calculate_option_price(lambda x: np.maximum(0, strike - x)))
 
     def up_and_out_call(self, strike, barrier):
         self.barrier = barrier
         self.barrier_type = 'up'
         self.in_out = 'out'
-        return self.calculate_option_price(lambda x: np.maximum(0, x - strike))
+        return np.vectorize(self.calculate_option_price(lambda x: np.maximum(0, x - strike)))
 
     def up_and_out_put(self, strike, barrier):
         self.barrier = barrier
         self.barrier_type = 'up'
         self.in_out = 'out'
-        return self.calculate_option_price(lambda x: np.maximum(0, strike - x))
+        return np.vectorize(self.calculate_option_price(lambda x: np.maximum(0, strike - x)))
 
     def down_and_out_call(self, strike, barrier):
         self.barrier = barrier
         self.barrier_type = 'down'
         self.in_out = 'out'
-        return self.calculate_option_price(lambda x: np.maximum(0, x - strike))
+        return np.vectorize(self.calculate_option_price(lambda x: np.maximum(0, x - strike)))
 
     def down_and_out_put(self, strike, barrier):
         self.barrier = barrier
         self.barrier_type = 'down'
         self.in_out = 'out'
-        return self.calculate_option_price(lambda x: np.maximum(0, strike - x))
+        return np.vectorize(self.calculate_option_price(lambda x: np.maximum(0, strike - x)))
 
     def up_and_in_call(self, strike, barrier):
         self.barrier = barrier
         self.barrier_type = 'down'
         self.in_out = 'in'
-        return self.calculate_option_price(lambda x: np.maximum(0, x - strike))
+        return np.vectorize(self.calculate_option_price(lambda x: np.maximum(0, x - strike)))
 
     def up_and_in_put(self, strike, barrier):
         self.barrier = barrier
         self.barrier_type = 'down'
         self.in_out = 'in'
-        return self.calculate_option_price(lambda x: np.maximum(0, strike - x))
+        return np.vectorize(self.calculate_option_price(lambda x: np.maximum(0, strike - x)))
 
     def down_and_in_call(self, strike, barrier):
         self.barrier = barrier
         self.barrier_type = 'up'
         self.in_out = 'in'
-        return self.calculate_option_price(lambda x: np.maximum(0, x - strike))
+        return np.vectorize(self.calculate_option_price(lambda x: np.maximum(0, x - strike)))
 
     def down_and_in_put(self, strike, barrier):
         self.barrier = barrier
         self.barrier_type = 'up'
         self.in_out = 'in'
-        return self.calculate_option_price(lambda x: np.maximum(0, strike - x))
+        return np.vectorize(self.calculate_option_price(lambda x: np.maximum(0, strike - x)))

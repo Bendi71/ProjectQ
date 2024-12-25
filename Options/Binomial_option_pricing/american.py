@@ -1,5 +1,6 @@
-from crr import CRR
 import numpy as np
+
+from Options.Binomial_option_pricing.crr import CRR
 
 
 class AmericanOption(CRR):
@@ -8,7 +9,7 @@ class AmericanOption(CRR):
         self.St = None
         self.V = None
 
-    def calculate_option_price(self, payoff):
+    def _calculate_option_price(self, payoff):
         self.St = self._build_tree()
         self.V = np.zeros_like(self.St)
         self.V[:, -1] = payoff(self.St[:, -1])
@@ -16,10 +17,10 @@ class AmericanOption(CRR):
             for j in range(i + 1):
                 self.V[j, i] = max(payoff(self.St[j, i]),
                                    self.discount * (self.q * self.V[j, i + 1] + (1 - self.q) * self.V[j + 1, i + 1]))
-        return self.V[0, 0]
+        return self.V
 
     def call(self, strike):
-        return self.calculate_option_price(lambda x: max(0, x - strike))
+        return self._calculate_option_price(np.vectorize(lambda x: max(0, x - strike)))
 
     def put(self, strike):
-        return self.calculate_option_price(lambda x: max(0, strike - x))
+        return self._calculate_option_price(np.vectorize(lambda x: max(0, strike - x)))
