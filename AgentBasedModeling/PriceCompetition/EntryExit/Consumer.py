@@ -1,6 +1,6 @@
 import numpy as np
 
-from Seller import Seller
+from AgentBasedModeling.PriceCompetition.EntryExit.Seller import Seller
 
 
 class Consumer:

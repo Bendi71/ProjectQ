@@ -2,6 +2,9 @@ import logging
 
 import numpy as np
 
+from AgentBasedModeling.PriceCompetition.EntryExit.Consumer import Consumer
+from AgentBasedModeling.PriceCompetition.EntryExit.Seller import Seller
+
 
 class Market:
     def __init__(self) -> None:

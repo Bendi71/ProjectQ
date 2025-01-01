@@ -7,12 +7,13 @@ from Market_dynamic_ms import Market
 
 market = Market()
 
-market.set_parameters(100, 10, 0.1, 0.0, 0.05, 10.0, exit_threshold=0.05)
-market.compile(1000, 100)
+market.set_parameters(100, 10, 0.1, -0.01, 0.05, 10.0, entry_probability=0.1, exit_threshold=0.05)
+market.compile(1000, 50)
 market.run_simulation()
 
 with open(
-        'C:/Users/Pinter Andrea/Documents/GitHub/ProjectQ/Agent based modeling/PriceCompetition/EntryExit/Market_data.pkl',
+        'C:/Users/Pinter Andrea/Documents/GitHub/ProjectQ/AgentBasedModeling/PriceCompetition/EntryExit/Dynamic '
+        'Target Market Share/Dynamic_market_data.pkl',
         'wb') as f:
     pickle.dump(market.sim_data, f)
 
