@@ -3,16 +3,16 @@ import pickle
 import matplotlib.pyplot as plt
 import numpy as np
 
-from Market_entry_exit import Market
+from Market_dynamic_ms import Market
 
 market = Market()
 
-market.set_parameters(100, 10, 0.1, 0.4, 0.05, 10.0, exit_threshold=0.05)
+market.set_parameters(100, 10, 0.1, 0.0, 0.05, 10.0, exit_threshold=0.05)
 market.compile(1000, 100)
 market.run_simulation()
 
 with open(
-        'C:/Users/Pinter Andrea/Documents/GitHub/ProjectQ/Agent based modeling/Price Competition/Entry Exit/Market_data.pkl',
+        'C:/Users/Pinter Andrea/Documents/GitHub/ProjectQ/Agent based modeling/PriceCompetition/EntryExit/Market_data.pkl',
         'wb') as f:
     pickle.dump(market.sim_data, f)
 

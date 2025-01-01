@@ -11,7 +11,7 @@ market.set_parameters(100, 3, 0.1, 0.4, 0.02, 10.0)
 market.compile(100, 50)
 market.run_simulation()
 
-with open('/Agent based modeling/Price Competition/Basic/Market_data.pkl',
+with open('/AgentBasedModeling/PriceCompetition/Basic/Market_data.pkl',
           'wb') as f:
     pickle.dump(market.sim_data, f)
 

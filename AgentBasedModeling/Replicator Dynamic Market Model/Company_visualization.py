@@ -1,7 +1,6 @@
-import matplotlib.pyplot as plt
 import pickle
 
-with open('C:/Users/Pinter Andrea/Documents/GitHub/ProjectQ/Agent based modeling/Replicator Dynamic Market '
+with open('C:/Users/Pinter Andrea/Documents/GitHub/ProjectQ/AgentBasedModeling/Replicator Dynamic Market '
           'Model/Model_basic.pkl', 'rb') as f:
     sim_data = pickle.load(f)
 

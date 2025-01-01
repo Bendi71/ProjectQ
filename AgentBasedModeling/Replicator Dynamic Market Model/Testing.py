@@ -1,5 +1,7 @@
 import unittest
+
 from Market import Market
+
 
 class TestMarket(unittest.TestCase):
     def setUp(self):
@@ -38,6 +40,7 @@ class TestMarket(unittest.TestCase):
         self.market.step()
         # Assuming some market dynamics have occurred
         self.assertNotEqual(self.market.Total_Sales, initial_total_sales)
+
 
 if __name__ == '__main__':
     unittest.main()

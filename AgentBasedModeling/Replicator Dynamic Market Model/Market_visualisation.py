@@ -1,18 +1,17 @@
-import matplotlib.pyplot as plt
-import numpy as np
 import pickle
 
-#importing the data
-with open('C:/Users/Pinter Andrea/Documents/GitHub/ProjectQ/Agent based modeling/Replicator Dynamic Market '
+import matplotlib.pyplot as plt
+import numpy as np
+
+# importing the data
+with open('C:/Users/Pinter Andrea/Documents/GitHub/ProjectQ/AgentBasedModeling/Replicator Dynamic Market '
           'Model/Model_basic.pkl', 'rb') as f:
     sim_data = pickle.load(f)
 
-
 total_market_values = np.mean([[step['Total_Market'] for step in sim] for sim in sim_data], axis=0)
 av_quality_values = np.mean([[step['Av_Quality'] for step in sim] for sim in sim_data], axis=0)
-num_companies = np.mean([[step['Num_Companies'] for step in sim] for sim in sim_data],axis=0)
+num_companies = np.mean([[step['Num_Companies'] for step in sim] for sim in sim_data], axis=0)
 steps = range(len(sim_data[0]))
-
 
 # Plotting Total Market over time
 plt.figure(figsize=(24, 7))

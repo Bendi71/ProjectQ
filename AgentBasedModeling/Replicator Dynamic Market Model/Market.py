@@ -1,5 +1,8 @@
-from Company import Company
 import numpy as np
+
+from Company import Company
+
+
 class Market:
     def __init__(self) -> None:
         self.Companies = []
@@ -9,7 +12,8 @@ class Market:
         self.sim_data = []
         self.sim_all_companies = []
 
-    def set_parameters(self, a, min, max, ExitThreshold, HetQuality, ProbEntry, InitShare, InitQuality, NewShare=None) -> None:
+    def set_parameters(self, a, min, max, ExitThreshold, HetQuality, ProbEntry, InitShare, InitQuality,
+                       NewShare=None) -> None:
         self.Selection_Pressure = a
         self.MinQuality = min
         self.MaxQuality = max
@@ -33,9 +37,9 @@ class Market:
 
     def new_entry(self, step) -> None:
         if np.random.uniform() < self.ProbEntry:
-            rnd = np.random.uniform(-self.HetQuality,self.HetQuality)
+            rnd = np.random.uniform(-self.HetQuality, self.HetQuality)
             new_quality = (1 + rnd) * self.Av_Quality
-            new_company = Company(self.NewShare,new_quality)
+            new_company = Company(self.NewShare, new_quality)
             new_company.History = {'MarketShare': [], 'Quality': []}
             new_company.entry_step = step
             self.Companies.append(new_company)
@@ -59,17 +63,17 @@ class Market:
             self.all_companies = self.Companies.copy()
             for step in range(self.steps):
                 self.Total_Market = np.sum([comp.MarketShare for comp in self.Companies])
-                self.Av_Quality = np.sum([comp.MarketShare * comp.Quality for comp in self.Companies]) / self.Total_Market
+                self.Av_Quality = np.sum(
+                    [comp.MarketShare * comp.Quality for comp in self.Companies]) / self.Total_Market
                 self.Num_Companies = len(self.Companies)
                 step_data.append(self.save_data(step))
                 for comp in self.Companies:
-                    comp.MarketShare_process(self.Av_Quality,self.Total_Market,self.Selection_Pressure)
-                    comp.Quality_process(self.MinQuality,self.MaxQuality)
+                    comp.MarketShare_process(self.Av_Quality, self.Total_Market, self.Selection_Pressure)
+                    comp.Quality_process(self.MinQuality, self.MaxQuality)
                 self.new_entry(step)
                 self.dropout(step)
             self.sim_data.append(step_data)
             self.sim_all_companies.append(self.all_companies)
-
 
     def save_data(self, step) -> dict:
         market_data = {
@@ -115,13 +119,3 @@ class Market:
                 # No need to fill np.nan as it's already the default value
 
         return reshaped_data
-
-
-
-
-
-
-
-
-
-
