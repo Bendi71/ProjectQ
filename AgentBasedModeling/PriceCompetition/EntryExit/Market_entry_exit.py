@@ -1,4 +1,5 @@
 import logging
+import sys
 
 import numpy as np
 
@@ -14,6 +15,7 @@ class Market:
         self.num_sellers = 0
         self.sim_data: list[list[dict]] = []
         self.sim_all_sellers: list[list[Seller]] = []
+        logging.basicConfig(level=logging.INFO)
         logging.info("Market initialized")
 
     def set_parameters(self, num_consumers: int, num_sellers: int, noise_variance: float, target_market_share: float,
@@ -62,7 +64,7 @@ class Market:
             new_seller.entry_step = step
             self.sellers.append(new_seller)
             self.all_sellers.append(new_seller)
-            logging.info(f"New seller added at step {step}")
+            # logging.info(f"New seller added at step {step}")
 
     def _remove_seller(self, step):
         remaining_sellers = []
@@ -76,7 +78,7 @@ class Market:
                 for consumer in seller.consumers:
                     consumer.seller = None
         self.sellers = remaining_sellers
-        logging.info(f"Sellers removed at step {step}")
+        #logging.info(f"Sellers removed at step {step}")
 
     def save_data(self, step) -> dict:
         avg_price = np.mean([seller.price for seller in self.sellers])
@@ -107,7 +109,14 @@ class Market:
                 self._new_seller(step)
             self.sim_data.append(step_data)
             self.sim_all_sellers.append(self.all_sellers)
-            logging.info(f"Simulation {sim + 1}/{self.num_simulations} completed")
+            self._progress_bar(sim + 1, self.num_simulations)
+
+    def _progress_bar(self, current, total, bar_length=40):
+        progress = current / total
+        block = int(bar_length * progress)
+        bar = '#' * block + '-' * (bar_length - block)
+        sys.stdout.write(f'\r[{bar}] {current}/{total} ({progress * 100:.2f}%)')
+        sys.stdout.flush()
 
     @staticmethod
     def reshape_MS_data(all_sellers: list, steps: int) -> np.ndarray:

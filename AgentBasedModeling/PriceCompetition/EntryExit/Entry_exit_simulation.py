@@ -12,8 +12,7 @@ market.compile(1000, 100)
 market.run_simulation()
 
 with open(
-        '/AgentBasedModeling/PriceCompetition/Entry '
-        'Exit/Market_data.pkl',
+        '/AgentBasedModeling/PriceCompetition/EntryExit/Market_data.pkl',
         'wb') as f:
     pickle.dump(market.sim_data, f)
 
